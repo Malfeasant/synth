@@ -11,6 +11,7 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
     private final KeyMapper keyMapper = new KeyMapper();
+    private final HertzMapper hertzMapper = new HertzMapper();
 
     @Override
     public void start(Stage stage) {
@@ -22,7 +23,9 @@ public class App extends Application {
     }
 
     private void keyEvent(KeyEvent event) {
-        
+        int midiNote = keyMapper.getKey(event.getCharacter().charAt(0));
+        float freq = hertzMapper.getHertz(midiNote);
+        System.out.println("Note: " + midiNote + "\tFrequency: " + freq);
     }
 
     public static void main(String[] args) {
