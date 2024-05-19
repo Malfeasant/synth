@@ -23,8 +23,9 @@ public class App extends Application {
     }
 
     private void keyEvent(KeyEvent event) {
-        int midiNote = keyMapper.getKey(event.getText().charAt(0));
-        if (midiNote < 0) return;   // unmapped key pressed
+        var optNote = keyMapper.getNote(event.getCode());
+        if (optNote.isEmpty()) return;  // unmapped key pressed
+        int midiNote = optNote.get();
         float freq = hertzMapper.getHertz(midiNote);
         System.out.println("Key: " + event);
         System.out.println("Note: " + midiNote + "\tFrequency: " + freq);

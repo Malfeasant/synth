@@ -1,5 +1,11 @@
 package us.malfeasant.synth;
 
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Optional;
+
+import javafx.scene.input.KeyCode;
+
 /**
  * Maps one of 36 keys (3 octaves) to a MIDI note-
  * further mapping to frequency is done separately
@@ -7,9 +13,20 @@ package us.malfeasant.synth;
  * each having its own offset
  */
 public class KeyMapper {
-    private static final String DEFAULT_MAPPING = "zsxdcvgbhnjm,l.;/q2w3e4rt6y7ui9o0p-[";
+    private static final KeyCode[] DEFAULT_MAPPING = {
+        //"zsxdcvgbhnjm,l.;/q2w3e4rt6y7ui9o0p-[";
+        KeyCode.Z, KeyCode.S, KeyCode.X, KeyCode.D, KeyCode.C, 
+        KeyCode.V, KeyCode.G, KeyCode.B, KeyCode.H, KeyCode.N,
+        KeyCode.J, KeyCode.M, KeyCode.COMMA, KeyCode.L,
+        KeyCode.PERIOD, KeyCode.SEMICOLON, KeyCode.SLASH,
+        KeyCode.Q, KeyCode.DIGIT2, KeyCode.W, KeyCode.DIGIT3,
+        KeyCode.E, KeyCode.DIGIT4, KeyCode.R, KeyCode.T,
+        KeyCode.DIGIT6, KeyCode.Y, KeyCode.DIGIT7, KeyCode.U,
+        KeyCode.I, KeyCode.DIGIT9, KeyCode.O, KeyCode.DIGIT0,
+        KeyCode.P, KeyCode.SUBTRACT, KeyCode.OPEN_BRACKET
+    };
 
-    private String mapping;
+    private Map<KeyCode, Integer> map;
     private int upperOffset;
     private int lowerOffset;
 
@@ -22,21 +39,22 @@ public class KeyMapper {
         this(48, 65);
     }
     public KeyMapper(int lowerOffset, int upperOffset) {
-        this(lowerOffset, upperOffset, DEFAULT_MAPPING);
-    }
-    public KeyMapper(int lowerOffset, int upperOffset, String mapping) {
         this.lowerOffset = lowerOffset;
         this.upperOffset = upperOffset - 17;
-        this.mapping = mapping;
+
+        map = new EnumMap<>(KeyCode.class);
+        for (int i = 0; i < DEFAULT_MAPPING.length; ++i) {
+            map.put(DEFAULT_MAPPING[i], i);
+        }
     }
     /**
      * Maps a key press or release to a MIDI note number
      * @param key
      * @return
      */
-    public int getKey(char key) {
-        int rawKey = mapping.indexOf(key);
-        if (rawKey < 0) return -1;
-        return rawKey + (rawKey > 16 ? upperOffset : lowerOffset);
+    public Optional<Integer> getNote(KeyCode key) {
+        var rawKey = map.get(key);
+        if (rawKey == null) return Optional.empty();
+        return Optional.of(rawKey + (rawKey > 16 ? upperOffset : lowerOffset));
     }
 }
