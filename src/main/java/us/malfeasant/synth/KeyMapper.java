@@ -23,7 +23,7 @@ public class KeyMapper {
         KeyCode.E, KeyCode.DIGIT4, KeyCode.R, KeyCode.T,
         KeyCode.DIGIT6, KeyCode.Y, KeyCode.DIGIT7, KeyCode.U,
         KeyCode.I, KeyCode.DIGIT9, KeyCode.O, KeyCode.DIGIT0,
-        KeyCode.P, KeyCode.SUBTRACT, KeyCode.OPEN_BRACKET
+        KeyCode.P, KeyCode.MINUS, KeyCode.OPEN_BRACKET
     };
 
     private Map<KeyCode, Integer> map;
