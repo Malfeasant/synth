@@ -7,7 +7,7 @@ package us.malfeasant.synth;
  * each having its own offset
  */
 public class KeyMapper {
-    private static final String DEFAULT_MAPPING = "ZSXDCVGBHNJM,L.;/Q2W3E4RT6Y7UI9O0P-[";
+    private static final String DEFAULT_MAPPING = "zsxdcvgbhnjm,l.;/q2w3e4rt6y7ui9o0p-[";
 
     private String mapping;
     private int upperOffset;
@@ -36,6 +36,7 @@ public class KeyMapper {
      */
     public int getKey(char key) {
         int rawKey = mapping.indexOf(key);
+        if (rawKey < 0) return -1;
         return rawKey + (rawKey > 16 ? upperOffset : lowerOffset);
     }
 }
